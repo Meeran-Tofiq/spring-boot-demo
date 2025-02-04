@@ -23,6 +23,10 @@ public class RunRepository {
         return Optional.ofNullable(runs.get(id));
     }
 
+    void create(Run run) {
+        runs.put(run.id(), run);
+    }
+
     @PostConstruct
     private void init() {
         Run r1 = new Run(

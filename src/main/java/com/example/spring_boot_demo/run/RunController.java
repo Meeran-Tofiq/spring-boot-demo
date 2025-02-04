@@ -2,10 +2,7 @@ package com.example.spring_boot_demo.run;
 
 
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -21,7 +18,7 @@ public class RunController {
         this.runRepository = runRepository;
     }
 
-    @GetMapping("/")
+    @GetMapping("")
     List<Run> getRuns() {
         return runRepository.findAll();
     }
@@ -33,5 +30,11 @@ public class RunController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Run not found.");
         }
         return run.get();
+    }
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping("")
+    void createRun(@RequestBody Run run) {
+        runRepository.create(run);
     }
 }
