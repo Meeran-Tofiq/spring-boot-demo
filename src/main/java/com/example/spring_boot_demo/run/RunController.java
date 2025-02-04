@@ -3,7 +3,6 @@ package com.example.spring_boot_demo.run;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,7 +26,7 @@ public class RunController {
     Run getRunById(@PathVariable("id") Integer id) {
         Optional<Run> run = runRepository.findById(id);
         if (run.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Run not found.");
+            throw new RunNotFoundException();
         }
         return run.get();
     }
