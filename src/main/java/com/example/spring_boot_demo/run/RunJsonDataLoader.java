@@ -14,18 +14,18 @@ import java.util.List;
 @Component
 public class RunJsonDataLoader implements CommandLineRunner {
 	private static final Logger log = LoggerFactory.getLogger(RunJsonDataLoader.class);
-	private final RunRepository runRepository;
+	private final JdbcClientRunRepository jdbcClientRunRepository;
 	private final ObjectMapper objectMapper;
 
-	public RunJsonDataLoader(RunRepository runRepository, ObjectMapper objectMapper) {
-		this.runRepository = runRepository;
+	public RunJsonDataLoader(JdbcClientRunRepository jdbcClientRunRepository, ObjectMapper objectMapper) {
+		this.jdbcClientRunRepository = jdbcClientRunRepository;
 		this.objectMapper = objectMapper;
 	}
 
 	@Override
 	public void run(String... args) throws Exception {
 		// Only load JSON data if the repository is empty
-		if (runRepository.count() != 0) {
+		if (jdbcClientRunRepository.count() != 0) {
 			return;
 		}
 
@@ -37,7 +37,7 @@ public class RunJsonDataLoader implements CommandLineRunner {
 			List<Run> allRuns = objectMapper.readValue(inputStream, new TypeReference<List<Run>>() {
 			});
 			log.info("Reading {} runs from JSON data into the database", allRuns.size());
-			runRepository.saveAll(allRuns);
+			jdbcClientRunRepository.saveAll(allRuns);
 		} catch (IOException e) {
 			throw new RuntimeException("Failed to load runs data", e);
 		}
