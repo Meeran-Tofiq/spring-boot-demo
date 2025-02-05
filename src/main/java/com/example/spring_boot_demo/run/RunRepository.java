@@ -3,6 +3,7 @@ package com.example.spring_boot_demo.run;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
@@ -14,6 +15,11 @@ import java.util.Optional;
 public class RunRepository {
     private static final Logger log = LoggerFactory.getLogger(RunRepository.class);
     private final HashMap<Integer, Run> runs = new HashMap<>();
+    private final JdbcClient client;
+
+    public RunRepository(JdbcClient client) {
+        this.client = client;
+    }
 
     List<Run> findAll() {
         return runs.values().stream().toList();
