@@ -51,7 +51,7 @@ public class RunController {
 	}
 
 	@GetMapping("/location/{location}")
-	List<Run> getAllByLocation(@PathVariable String location) {
+	List<Run> getAllByLocation(@PathVariable Location location) {
 		return runRepository.findAllByLocation(location);
 	}
 }
